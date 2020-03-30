@@ -64,7 +64,6 @@ def translate_shape(shape_actor, render_object, vector, iteration):
         time.sleep(FRAMERATE)
         shape_actor.AddPosition(vector)
         render_object.Render()
-        print(shape_actor.GetOrigin())
 
 
 # Start
@@ -78,12 +77,10 @@ eye2Actor = sphere(0.1, [0, 0, 0],  30, [0.0, 0.0, 0.0],  [0, -2, 0])
 
 noseActor = cone(0.3, [0, 2.2, 0], 0.1, 30, [1, 0.678, 0.121], [0, 0, 0])  # Normalized decimal RGB
 noseActor.RotateZ(-90)
-print(noseActor.GetOrigin())
+
 # Camera
 
 cam = vtk.vtkCamera()
-cam.SetFocalPoint(0, 0, 1.5)
-cam.SetViewUp(0, 0, 0)
 cam.SetPosition(0, 0, 12)
 
 ren = vtk.vtkRenderer()
@@ -119,6 +116,9 @@ translate_shape(noseActor, renWin, [0, 0, -0.0175], 50)
 
 # Rotate nose to the head
 rotate_shape(noseActor, renWin, 'z', 90, 1)
+
+for i in range (0,1000):
+    time.sleep(FRAMERATE)
 
 
 
