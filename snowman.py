@@ -13,9 +13,6 @@ def sphere(radius, center, resolution, color, position):
 
     property = vtk.vtkProperty()
     property.SetColor(color)
-    # property.SetDiffuse(0.6)
-    # property.SetSpecular(0.4)
-    # property.SetSpecularPower(0.6)
 
     sphereActor = vtk.vtkActor()
     sphereActor.SetMapper(sphereMapper)
@@ -36,9 +33,6 @@ def cone(height, radius, resolution, color, position):
 
     property = vtk.vtkProperty()
     property.SetColor(color)
-    # property.SetDiffuse(0.7)
-    # property.SetSpecular(0.4)
-    # property.SetSpecularPower(20)
 
     coneActor = vtk.vtkActor()
     coneActor.SetMapper(coneMapper)
@@ -61,8 +55,6 @@ cam = vtk.vtkCamera()
 cam.SetFocalPoint(0, 0, 1.5)
 cam.SetViewUp(0, 0, 0)
 cam.SetPosition(0, 0, 12)
-# cam.ParallelProjectionOn()
-# cam.SetParallelScale(5)
 
 ren = vtk.vtkRenderer()
 ren.AddActor(headActor)
@@ -83,12 +75,12 @@ renWin.SetSize(720, 720)
 # Rotate 90 degrees
 for i in range(0, 90):
     time.sleep(0.03)
-
     headActor.RotateZ(-1)
     renWin.Render()
 
-for i in range(0, 1400):
+# Move head to body
+for i in range(0, 40):
     time.sleep(0.03)
-
+    j = (i * 0.0175) * -1;
+    headActor.SetPosition(0, j, 0)
     renWin.Render()
-    # ren.GetActiveCamera().Azimuth(1)
