@@ -1,6 +1,8 @@
 import vtk
 import time
 
+FRAMERATE = 0.03
+
 
 def sphere(radius, center, resolution, color, position):
     sphereSource = vtk.vtkSphereSource()
@@ -43,14 +45,41 @@ def cone(height, center, radius, resolution, color, position):
     return coneActor
 
 
+def rotate_shape(shape_actor, render_object, axe, angle, direction):
+    for _ in range(0, angle):
+        time.sleep(FRAMERATE)
+
+        if axe == 'z':
+            shape_actor.RotateZ(direction)
+        elif axe == 'x':
+            shape_actor.RotateX(direction)
+        elif axe == 'y':
+            shape_actor.RotateY(direction)
+
+        render_object.Render()
+
+
+def translate_shape(shape_actor, render_object, vector, iteration):
+    for _ in range(0, iteration):
+        time.sleep(FRAMERATE)
+        shape_actor.AddPosition(vector)
+        render_object.Render()
+        print(shape_actor.GetOrigin())
+
+
+# Start
+# Declaration of Actors
+
 headActor = sphere(0.7, [-2.2, 0, 0], 30, [1.0, 1.0, 1.0], [0, 0, 0])
 bodyActor = sphere(1, [0, 0, 0], 30, [1.0, 1.0, 1.0], [0, 0, 0])
 
-eyeActor = sphere(0.1, [0, 0, 0], 30,  [0.0, 0.0, 0.0], [0, 6, 0])
+eyeActor = sphere(0.1, [0, 0, 0], 30,  [0.0, 0.0, 0.0], [0, 0, 0])
 eye2Actor = sphere(0.1, [0, 0, 0],  30, [0.0, 0.0, 0.0],  [0, -2, 0])
 
-noseActor = cone(0.3, [0, 1.4, 0], 0.1, 30, [1, 0.678, 0.121], [0, 0, 0])  # Normalized decimal RGB
+noseActor = cone(0.3, [0, 2.2, 0], 0.1, 30, [1, 0.678, 0.121], [0, 0, 0])  # Normalized decimal RGB
 noseActor.RotateZ(-90)
+print(noseActor.GetOrigin())
+# Camera
 
 cam = vtk.vtkCamera()
 cam.SetFocalPoint(0, 0, 1.5)
@@ -69,39 +98,34 @@ ren.AddActor(eye2Actor)
 ren.SetBackground(0.988, 0.843, 0.854)
 ren.SetActiveCamera(cam)
 
+ren.GetActiveCamera().Azimuth(90)
+
 renWin = vtk.vtkRenderWindow()
 renWin.AddRenderer(ren)
 renWin.SetSize(720, 720)
 
-# Rotate 90 degrees
-for i in range(0, 90):
-    time.sleep(0.03)
-    headActor.RotateZ(-1)
-    renWin.Render()
+
+# Rotate 90 degrees Head
+rotate_shape(headActor, renWin, 'z', 90, -1)
 
 # Move head to body
-for i in range(0, 40):
-    time.sleep(0.03)
-    j = (i * 0.0175) * -1;
-    headActor.SetPosition(0, j, 0)
-    renWin.Render()
+translate_shape(headActor, renWin, [0, -0.0175, 0], 40)
+
+headActor.SetOrigin([0, 0, 0])
+
+# Move the nose and place to the head
+rotate_shape(noseActor, renWin, 'x', 90, 1)
 
 
-# Move the nove and place to the head
-for i in range(0, 90):
-    time.sleep(0.03)
-    noseActor.RotateX(1)
-    renWin.Render()
+# Sneaky move back the nose
+translate_shape(noseActor, renWin, [0, 0, -0.0175], 50)
+noseActor.SetOrigin(0, 0, 0)
+
 
 for i in range(0, 90):
     time.sleep(0.03)
     noseActor.RotateZ(1)
     renWin.Render()
 
-for i in range(0, 90):
-    time.sleep(0.03)
-    j = (i * 0.0175) * -1;
-    noseActor.SetPosition(0, 0, 0.8)
-    renWin.Render()
 
 # Setup eyes
