@@ -3,13 +3,13 @@ import time
 
 
 def sphere(radius, center, resolution, color, position):
-    sphere = vtk.vtkSphereSource()
-    sphere.SetCenter(center)
-    sphere.SetRadius(radius)
-    sphere.SetThetaResolution(resolution)
+    sphereSource = vtk.vtkSphereSource()
+    sphereSource.SetCenter(center)
+    sphereSource.SetRadius(radius)
+    sphereSource.SetThetaResolution(resolution)
 
     sphereMapper = vtk.vtkPolyDataMapper()
-    sphereMapper.SetInputConnection(sphere.GetOutputPort())
+    sphereMapper.SetInputConnection(sphereSource.GetOutputPort())
 
     property = vtk.vtkProperty()
     property.SetColor(color)
@@ -23,14 +23,14 @@ def sphere(radius, center, resolution, color, position):
 
 
 def cone(height, center, radius, resolution, color, position):
-    cone = vtk.vtkConeSource()
-    cone.SetCenter(center)
-    cone.SetHeight(height)
-    cone.SetRadius(radius)
-    cone.SetResolution(resolution)
+    coneSource = vtk.vtkConeSource()
+    coneSource.SetCenter(center)
+    coneSource.SetHeight(height)
+    coneSource.SetRadius(radius)
+    coneSource.SetResolution(resolution)
 
     coneMapper = vtk.vtkPolyDataMapper()
-    coneMapper.SetInputConnection(cone.GetOutputPort())
+    coneMapper.SetInputConnection(coneSource.GetOutputPort())
 
     property = vtk.vtkProperty()
     property.SetColor(color)
