@@ -75,6 +75,7 @@ bodyActor = sphere(1, [0, 0, 0], 30, [1.0, 1.0, 1.0], [0, 0, 0])
 eyeActor = sphere(0.1, [0, 0, 0], 30,  [0.0, 0.0, 0.0], [0, 0, 0])
 eye2Actor = sphere(0.1, [0, 0, 0],  30, [0.0, 0.0, 0.0],  [0, -2, 0])
 
+
 noseActor = cone(0.3, [0, 2.2, 0], 0.1, 30, [1, 0.678, 0.121], [0, 0, 0])  # Normalized decimal RGB
 noseActor.RotateZ(-90)
 
@@ -88,6 +89,7 @@ ren.AddActor(headActor)
 ren.AddActor(bodyActor)
 
 ren.AddActor(noseActor)
+
 
 ren.AddActor(eyeActor)
 ren.AddActor(eye2Actor)
@@ -116,6 +118,12 @@ translate_shape(noseActor, renWin, [0, 0, -0.0175], 50)
 
 # Rotate nose to the head
 rotate_shape(noseActor, renWin, 'z', 90, 1)
+
+# Place the nose to the head
+translate_shape(noseActor, renWin, [0, 0, 0.0175], 100)
+
+# Place eyes to the head
+
 
 for i in range (0,1000):
     time.sleep(FRAMERATE)
