@@ -22,8 +22,9 @@ def sphere(radius, center, resolution, color, position):
     return sphereActor
 
 
-def cone(height, radius, resolution, color, position):
+def cone(height, center, radius, resolution, color, position):
     cone = vtk.vtkConeSource()
+    cone.SetCenter(center)
     cone.SetHeight(height)
     cone.SetRadius(radius)
     cone.SetResolution(resolution)
@@ -48,7 +49,7 @@ bodyActor = sphere(1, [0, 0, 0], 30, [1.0, 1.0, 1.0], [0, 0, 0])
 eyeActor = sphere(0.1, [0, 0, 0], 30,  [0.0, 0.0, 0.0], [0, 6, 0])
 eye2Actor = sphere(0.1, [0, 0, 0],  30, [0.0, 0.0, 0.0],  [0, -2, 0])
 
-noseActor = cone(0.3, 0.1, 30, [1, 0.678, 0.121], [2.2, 0, 0])  # Normalized decimal RGB
+noseActor = cone(0.3, [0, 1.4, 0], 0.1, 30, [1, 0.678, 0.121], [0, 0, 0])  # Normalized decimal RGB
 noseActor.RotateZ(-90)
 
 cam = vtk.vtkCamera()
@@ -84,3 +85,23 @@ for i in range(0, 40):
     j = (i * 0.0175) * -1;
     headActor.SetPosition(0, j, 0)
     renWin.Render()
+
+
+# Move the nove and place to the head
+for i in range(0, 90):
+    time.sleep(0.03)
+    noseActor.RotateX(1)
+    renWin.Render()
+
+for i in range(0, 90):
+    time.sleep(0.03)
+    noseActor.RotateZ(1)
+    renWin.Render()
+
+for i in range(0, 90):
+    time.sleep(0.03)
+    j = (i * 0.0175) * -1;
+    noseActor.SetPosition(0, 0, 0.8)
+    renWin.Render()
+
+# Setup eyes
