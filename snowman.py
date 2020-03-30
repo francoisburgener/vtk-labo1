@@ -2,9 +2,9 @@ import vtk
 import time
 
 
-def sphere(radius, resolution, color, position):
+def sphere(radius, center, resolution, color, position):
     sphere = vtk.vtkSphereSource()
-    sphere.SetCenter([3.0, 3.0, 3.0])
+    sphere.SetCenter(center)
     sphere.SetRadius(radius)
     sphere.SetThetaResolution(resolution)
 
@@ -13,9 +13,9 @@ def sphere(radius, resolution, color, position):
 
     property = vtk.vtkProperty()
     property.SetColor(color)
-    property.SetDiffuse(0.7)
-    property.SetSpecular(0.4)
-    property.SetSpecularPower(20)
+    # property.SetDiffuse(0.6)
+    # property.SetSpecular(0.4)
+    # property.SetSpecularPower(0.6)
 
     sphereActor = vtk.vtkActor()
     sphereActor.SetMapper(sphereMapper)
@@ -36,9 +36,9 @@ def cone(height, radius, resolution, color, position):
 
     property = vtk.vtkProperty()
     property.SetColor(color)
-    property.SetDiffuse(0.7)
-    property.SetSpecular(0.4)
-    property.SetSpecularPower(20)
+    # property.SetDiffuse(0.7)
+    # property.SetSpecular(0.4)
+    # property.SetSpecularPower(20)
 
     coneActor = vtk.vtkActor()
     coneActor.SetMapper(coneMapper)
@@ -48,22 +48,47 @@ def cone(height, radius, resolution, color, position):
     return coneActor
 
 
-sphereActor1 = sphere(1, 30, [1.0, 0.3882, 0.2784], [0, 0, 0])
-sphereActor2 = sphere(1.5, 30, [0.2, 0.63, 0.79], [0, 3, 0])
-coneActor = cone(1.0, 0.2, 10, [0.2, 0.63, 0.79], [0, 10, 0])
+headActor = sphere(0.7, [-2.2, 0, 0], 30, [1.0, 1.0, 1.0], [0, 0, 0])
+bodyActor = sphere(1, [0, 0, 0], 30, [1.0, 1.0, 1.0], [0, 0, 0])
 
-ren1 = vtk.vtkRenderer()
-ren1.AddActor(sphereActor1)
-ren1.AddActor(sphereActor2)
-ren1.AddActor(coneActor)
-ren1.SetBackground(0.1, 0.2, 0.4)
+eyeActor = sphere(0.1, [0, 0, 0], 30,  [0.0, 0.0, 0.0], [0, 6, 0])
+eye2Actor = sphere(0.1, [0, 0, 0],  30, [0.0, 0.0, 0.0],  [0, -2, 0])
+
+noseActor = cone(0.3, 0.1, 30, [1, 0.678, 0.121], [2.2, 0, 0])  # Normalized decimal RGB
+noseActor.RotateZ(-90)
+
+cam = vtk.vtkCamera()
+cam.SetFocalPoint(0, 0, 1.5)
+cam.SetViewUp(0, 0, 0)
+cam.SetPosition(0, 0, 12)
+# cam.ParallelProjectionOn()
+# cam.SetParallelScale(5)
+
+ren = vtk.vtkRenderer()
+ren.AddActor(headActor)
+ren.AddActor(bodyActor)
+
+ren.AddActor(noseActor)
+
+ren.AddActor(eyeActor)
+ren.AddActor(eye2Actor)
+
+ren.SetBackground(0.988, 0.843, 0.854)
+ren.SetActiveCamera(cam)
 
 renWin = vtk.vtkRenderWindow()
-renWin.AddRenderer(ren1)
-renWin.SetSize(800, 800)
+renWin.AddRenderer(ren)
+renWin.SetSize(720, 720)
 
-for i in range(0, 360):
+# Rotate 90 degrees
+for i in range(0, 90):
+    time.sleep(0.03)
+
+    headActor.RotateZ(-1)
+    renWin.Render()
+
+for i in range(0, 1400):
     time.sleep(0.03)
 
     renWin.Render()
-    ren1.GetActiveCamera().Azimuth(1)
+    # ren.GetActiveCamera().Azimuth(1)
