@@ -111,21 +111,15 @@ rotate_shape(headActor, renWin, 'z', 90, -1)
 # Move head to body
 translate_shape(headActor, renWin, [0, -0.0175, 0], 40)
 
-headActor.SetOrigin([0, 0, 0])
-
-# Move the nose and place to the head
+# Rotate the nose in front of the body
 rotate_shape(noseActor, renWin, 'x', 90, 1)
-
 
 # Sneaky move back the nose
 translate_shape(noseActor, renWin, [0, 0, -0.0175], 50)
-noseActor.SetOrigin(0, 0, 0)
 
+# Rotate nose to the head
+rotate_shape(noseActor, renWin, 'z', 90, 1)
 
-for i in range(0, 90):
-    time.sleep(0.03)
-    noseActor.RotateZ(1)
-    renWin.Render()
 
 
 # Setup eyes
