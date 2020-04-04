@@ -72,8 +72,8 @@ def translate_shape(shape_actor, render_object, vector, iteration):
 headActor = sphere(radius=0.7, center=[-2.2, 0, 0], resolution=30, color=[1.0, 1.0, 1.0], position=[0, 0, 0])
 bodyActor = sphere(radius=1, center=[0, 0, 0], resolution=30, color=[1.0, 1.0, 1.0], position=[0, 0, 0])
 
-eyeActor = sphere(radius=0.1, center=[0, 0, 0], resolution=30, color=[0.0, 0.0, 0.0], position=[0, 0, 0])
-eye2Actor = sphere(radius=0.1, center=[0, 0, 0], resolution=30, color=[0.0, 0.0, 0.0], position=[0, -2, 0])
+eyeActor = sphere(radius=0.125, center=[0, 0, 0], resolution=30, color=[0.0, 0.0, 0.0], position=[0.25, 1.6, 0.625])
+eye2Actor = sphere(radius=0.125, center=[0, 0, 0], resolution=30, color=[0.0, 0.0, 0.0], position=[-0.25, 1.6, 0.625])
 
 noseActor = cone(height=0.3, center=[0, 2.2, 0], radius=0.1, resolution=30, color=[1, 0.678, 0.121],
                  position=[0, 0, 0])  # Normalized decimal RGB
@@ -97,7 +97,8 @@ ren.AddActor(eye2Actor)
 ren.SetBackground(0.988, 0.843, 0.854)
 ren.SetActiveCamera(cam)
 
-ren.GetActiveCamera().Azimuth(90)
+# Setting up initial Azimuth
+# ren.GetActiveCamera().Azimuth(90)
 
 renWin = vtk.vtkRenderWindow()
 renWin.AddRenderer(ren)
