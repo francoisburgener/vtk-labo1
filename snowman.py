@@ -69,14 +69,15 @@ def translate_shape(shape_actor, render_object, vector, iteration):
 # Start
 # Declaration of Actors
 
-headActor = sphere(0.7, [-2.2, 0, 0], 30, [1.0, 1.0, 1.0], [0, 0, 0])
-bodyActor = sphere(1, [0, 0, 0], 30, [1.0, 1.0, 1.0], [0, 0, 0])
+headActor = sphere(radius=0.7, center=[-2.2, 0, 0], resolution=30, color=[1.0, 1.0, 1.0], position=[0, 0, 0])
+bodyActor = sphere(radius=1, center=[0, 0, 0], resolution=30, color=[1.0, 1.0, 1.0], position=[0, 0, 0])
 
-eyeActor = sphere(0.1, [0, 0, 0], 30,  [0.0, 0.0, 0.0], [0, 0, 0])
-eye2Actor = sphere(0.1, [0, 0, 0],  30, [0.0, 0.0, 0.0],  [0, -2, 0])
+eyeActor = sphere(radius=0.1, center=[0, 0, 0], resolution=30, color=[0.0, 0.0, 0.0], position=[0, 0, 0])
+eye2Actor = sphere(radius=0.1, center=[0, 0, 0], resolution=30, color=[0.0, 0.0, 0.0], position=[0, -2, 0])
 
+noseActor = cone(height=0.3, center=[0, 2.2, 0], radius=0.1, resolution=30, color=[1, 0.678, 0.121],
+                 position=[0, 0, 0])  # Normalized decimal RGB
 
-noseActor = cone(0.3, [0, 2.2, 0], 0.1, 30, [1, 0.678, 0.121], [0, 0, 0])  # Normalized decimal RGB
 noseActor.RotateZ(-90)
 
 # Camera
@@ -90,7 +91,6 @@ ren.AddActor(bodyActor)
 
 ren.AddActor(noseActor)
 
-
 ren.AddActor(eyeActor)
 ren.AddActor(eye2Actor)
 
@@ -103,31 +103,28 @@ renWin = vtk.vtkRenderWindow()
 renWin.AddRenderer(ren)
 renWin.SetSize(720, 720)
 
-
 # Rotate 90 degrees Head
-rotate_shape(headActor, renWin, 'z', 90, -1)
+rotate_shape(shape_actor=headActor, render_object=renWin, axe='z', angle=90, direction=-1)
 
 # Move head to body
-translate_shape(headActor, renWin, [0, -0.0175, 0], 40)
+translate_shape(shape_actor=headActor, render_object=renWin, vector=[0, -0.0175, 0], iteration=40)
 
 # Rotate the nose in front of the body
-rotate_shape(noseActor, renWin, 'x', 90, 1)
+rotate_shape(shape_actor=noseActor, render_object=renWin, axe='x', angle=90, direction=1)
 
 # Sneaky move back the nose
-translate_shape(noseActor, renWin, [0, 0, -0.0175], 50)
+translate_shape(shape_actor=noseActor, render_object=renWin, vector=[0, 0, -0.0175], iteration=50)
 
 # Rotate nose to the head
-rotate_shape(noseActor, renWin, 'z', 90, 1)
+rotate_shape(shape_actor=noseActor, render_object=renWin, axe='z', angle=90, direction=1)
 
 # Place the nose to the head
-translate_shape(noseActor, renWin, [0, 0, 0.0175], 100)
+translate_shape(shape_actor=noseActor, render_object=renWin, vector=[0, 0, 0.0175], iteration=100)
 
 # Place eyes to the head
 
 
-for i in range (0,1000):
+for i in range(0, 1000):
     time.sleep(FRAMERATE)
-
-
 
 # Setup eyes
