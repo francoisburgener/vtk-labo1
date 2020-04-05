@@ -66,6 +66,19 @@ def translate_shape(shape_actor, render_object, vector, iteration):
         render_object.Render()
 
 
+def rotate_camera(render, render_window, direction, axe, iteration):
+    for _ in range(0, iteration):
+        time.sleep(FRAMERATE/2)
+
+        if axe == 'azimuth':
+            render.GetActiveCamera().Roll(direction)
+        elif axe == 'roll':
+            render.GetActiveCamera().Azimuth(direction)
+        elif axe == 'elevation':
+            render.GetActiveCamera().Elevation(direction)
+        render_window.Render()
+
+
 # Start
 # Declaration of Actors
 
@@ -90,9 +103,6 @@ ren.AddActor(headActor)
 ren.AddActor(bodyActor)
 
 ren.AddActor(noseActor)
-
-ren.AddActor(eyeActor)
-ren.AddActor(eye2Actor)
 
 ren.SetBackground(0.988, 0.843, 0.854)
 ren.SetActiveCamera(cam)
@@ -123,7 +133,18 @@ rotate_shape(shape_actor=noseActor, render_object=renWin, axe='z', angle=90, dir
 translate_shape(shape_actor=noseActor, render_object=renWin, vector=[0, 0, 0.0175], iteration=100)
 
 # Place eyes to the head
+ren.AddActor(eyeActor)
+ren.AddActor(eye2Actor)
 
+renWin.Render()
+# Rotation camera
+rotate_camera(ren, renWin, 1, 'roll', 360)
+rotate_camera(ren, renWin, 1, 'azimuth', 360)
+rotate_camera(ren, renWin, 1, 'elevation', 60)
+rotate_camera(ren, renWin, -1, 'elevation', 60)
+
+
+# Move camera
 
 for i in range(0, 1000):
     time.sleep(FRAMERATE)
